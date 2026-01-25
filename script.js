@@ -40,9 +40,49 @@ if (tableBody && ligaSelect) {
   });
 }
 
-// ===== LEADERBOARD (KOSONG UNTUK HOME) =====
+// ===== LEADERBOARD HOME =====
+const leaderboardURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkFDJVcyrG3EY9rv4jBvQc7JOAHAy9CsCMIFEB0oM1N3Afqi5ZuJCk5TD1hXKkFkMjq4VMEl3gHygg/pub?gid=1213844965&single=true&output=csv";
 const leaderboardBody = document.querySelector('#leaderboard-table tbody');
+
 if (leaderboardBody) {
-  leaderboardBody.innerHTML = '';
-  // nanti bisa diisi logic auto hitung atau hardcode data
+  Papa.parse(leaderboardURL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      const data = results.data;
+
+      // Pastikan angka POINT, MATCHES, WIN, DRAW, LOSE jadi number
+      data.forEach(row => {
+        row.MATCHES = Number(row.MATCHES) || 0;
+        row.WIN = Number(row.WIN) || 0;
+        row.DRAW = Number(row.DRAW) || 0;
+        row.LOSE = Number(row.LOSE) || 0;
+        row.POINT = Number(row.POINT) || 0;
+      });
+
+      // Sort descending by POINT
+      data.sort((a,b) => b.POINT - a.POINT);
+
+      // Inject ke table
+      leaderboardBody.innerHTML = '';
+      data.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${row.NAMA || ''}</td>
+          <td>${row.MATCHES}</td>
+          <td>${row.WIN}</td>
+          <td>${row.DRAW}</td>
+          <td>${row.LOSE}</td>
+          <td>${row.POINT}</td>
+        `;
+        leaderboardBody.appendChild(tr);
+      });
+    },
+    error: function(err) {
+      console.error("Gagal load leaderboard CSV:", err);
+    }
+  });
 }
+
