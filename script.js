@@ -52,7 +52,7 @@ if (tableBody && ligaSelect) {
         tr.innerHTML = `
           <td>${liga}</td>
           <td>${player1}</td>
-          <td>${logo1 ? `<img src="${logo1}" alt="Logo" class="team-logo">` : ''} ${team1}</td>
+          <td>${logo1 ? `<img src="${logo1}" alt="Logo" class="team-logo">` : ''}</td>
           <td>${team1}</td>
           <td>${poor}</td>
           <td>${team2}</td>
