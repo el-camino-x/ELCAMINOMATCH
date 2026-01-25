@@ -21,21 +21,20 @@ if (loginBtn && passwordInput && errorMsg) {
   });
 }
 
-// ===== MATCHES CSV URL =====
+// ===== MATCHES DATA =====
 const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
-
-// ===== MATCHES TABLE =====
 const tableBody = document.querySelector('#matches-table tbody');
 const ligaSelect = document.getElementById('liga-select');
+const leaderboardBody = document.querySelector('#leaderboard-table tbody');
 
-if (tableBody && ligaSelect) {
-  Papa.parse(csvURL, {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: function(results) {
-      const data = results.data;
-      let ligaSet = new Set();
+Papa.parse(csvURL, {
+  download: true,
+  header: true,
+  skipEmptyLines: true,
+  complete: function(results) {
+    const data = results.data;
+    let ligaSet = new Set();
+    if (tableBody && ligaSelect) {
       tableBody.innerHTML = '';
 
       data.forEach(row => {
@@ -87,76 +86,51 @@ if (tableBody && ligaSelect) {
         });
       });
     }
-  });
-}
 
-// ===== LEADERBOARD =====
-const leaderboardBody = document.querySelector('#leaderboard-table tbody');
+    // ===== LEADERBOARD AUTO HITUNG =====
+    if (leaderboardBody) {
+      const leaderboard = {};
 
-if (leaderboardBody) {
-  Papa.parse(csvURL, {  // Pakai CSV matches yang sama
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: function(results) {
-      const data = results.data;
-      const stats = {};
-
+      // Hitung MATCHES, WIN, DRAW, LOSE, POINT
       data.forEach(row => {
-        const winPoints = 3;
-        const drawPoints = 1;
-        const losePoints = -2;
+        const players = [
+          {name: row.PLAYER, winner: row.WINNER, loser: row.LOSER, draw: row.DRAW},
+          {name: row.PLAYER_2, winner: row.WINNER, loser: row.LOSER, draw: row.DRAW}
+        ];
 
-        // Player 1
-        const p1 = row.PLAYER || '';
-        if (p1) {
-          if (!stats[p1]) stats[p1] = {MATCHES:0, WIN:0, DRAW:0, LOSE:0, POINT:0};
-          stats[p1].MATCHES++;
-          if (row.WINNER === p1) {
-            stats[p1].WIN++;
-            stats[p1].POINT += winPoints;
-          } else if (row.WINNER === 'DRAW') {
-            stats[p1].DRAW++;
-            stats[p1].POINT += drawPoints;
-          } else if (row.WINNER && row.WINNER !== p1) {
-            stats[p1].LOSE++;
-            stats[p1].POINT += losePoints;
+        players.forEach(p => {
+          if (!p.name) return;
+          if (!leaderboard[p.name]) {
+            leaderboard[p.name] = {MATCHES:0, WIN:0, DRAW:0, LOSE:0, POINT:0};
           }
-        }
 
-        // Player 2
-        const p2 = row.PLAYER_2 || '';
-        if (p2) {
-          if (!stats[p2]) stats[p2] = {MATCHES:0, WIN:0, DRAW:0, LOSE:0, POINT:0};
-          stats[p2].MATCHES++;
-          if (row.WINNER === p2) {
-            stats[p2].WIN++;
-            stats[p2].POINT += winPoints;
-          } else if (row.WINNER === 'DRAW') {
-            stats[p2].DRAW++;
-            stats[p2].POINT += drawPoints;
-          } else if (row.WINNER && row.WINNER !== p2) {
-            stats[p2].LOSE++;
-            stats[p2].POINT += losePoints;
+          leaderboard[p.name].MATCHES += 1;
+
+          if (p.draw && p.draw.toUpperCase() === "DRAW") {
+            leaderboard[p.name].DRAW += 1;
+            leaderboard[p.name].POINT += 1; // draw = 1
+          } else if (p.name === row.WINNER) {
+            leaderboard[p.name].WIN += 1;
+            leaderboard[p.name].POINT += 3; // win = 3
+          } else if (p.name === row.LOSER) {
+            leaderboard[p.name].LOSE += 1;
+            leaderboard[p.name].POINT += 0; // lose = 0
           }
-        }
+        });
       });
 
-      // Convert stats object ke array
-      const leaderboardData = Object.keys(stats).map(name => ({
+      // Convert ke array & sort descending by POINT
+      const leaderboardArray = Object.keys(leaderboard).map(name => ({
         NAMA: name,
-        ...stats[name]
-      }));
+        ...leaderboard[name]
+      })).sort((a,b)=>b.POINT - a.POINT);
 
-      // Sort by POINT descending
-      leaderboardData.sort((a,b)=>b.POINT - a.POINT);
-
-      // Inject ke tabel
+      // Inject ke table
       leaderboardBody.innerHTML = '';
-      leaderboardData.forEach((row, index)=>{
+      leaderboardArray.forEach((row, index)=>{
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td>${index+1}</td>
+          <td>${index + 1}</td>
           <td>${row.NAMA}</td>
           <td>${row.MATCHES}</td>
           <td>${row.WIN}</td>
@@ -167,5 +141,5 @@ if (leaderboardBody) {
         leaderboardBody.appendChild(tr);
       });
     }
-  });
-}
+  }
+});
