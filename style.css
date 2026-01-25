@@ -264,12 +264,6 @@ button:hover {
   background-color: rgba(102, 204, 255, 0.2);
 }
 
-#leaderboard-table tr:first-child {
-  background: linear-gradient(90deg, #ffd700, #ffdd33);
-  color: #000;
-  font-weight: 900;
-}
-
 @media (max-width: 768px) {
   #leaderboard-table th, #leaderboard-table td {
     padding: 6px 8px;
