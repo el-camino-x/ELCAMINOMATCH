@@ -1,3 +1,20 @@
+/* Home Page Text */
+.home-title {
+  font-size: 3rem;
+  color: #66ccff;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+  margin-bottom: 20px;
+}
+
+.home-subtitle {
+  font-size: 1.5rem;
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+}
+
+
+
 /* Reset dasar */
 * {
   margin: 0;
