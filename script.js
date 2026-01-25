@@ -21,13 +21,11 @@ if (loginBtn && passwordInput && errorMsg) {
   });
 }
 
-// ===== CSV DATA =====
+// ===== MATCHES DATA =====
 const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
-
 const tableBody = document.querySelector('#matches-table tbody');
 const ligaSelect = document.getElementById('liga-select');
 
-// ===== GUARD untuk home.html =====
 if (tableBody && ligaSelect) {
   Papa.parse(csvURL, {
     download: true,
@@ -41,11 +39,11 @@ if (tableBody && ligaSelect) {
       data.forEach(row => {
         const liga = row.LIGA || '';
         const player1 = row.PLAYER || '';
-        const logo1 = row.TEAM || '';       
-        const team1 = row.HOME || '';       
+        const logo1 = row.TEAM || '';
+        const team1 = row.HOME || '';
         const poor = row.POOR || '';
-        const team2 = row.AWAY || '';       
-        const logo2 = row.LOGO_2 || '';     
+        const team2 = row.AWAY || '';
+        const logo2 = row.LOGO_2 || '';
         const player2 = row.PLAYER_2 || '';
         const realScore = row.REAL_SCORE || '';
         const totalScore = row.TOTAL_SCORE || '';
@@ -85,6 +83,40 @@ if (tableBody && ligaSelect) {
         tableRows.forEach(row => {
           row.style.display = (value === "All" || row.dataset.liga === value) ? "" : "none";
         });
+      });
+    }
+  });
+}
+
+// ===== LEADERBOARD HOME =====
+const leaderboardURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?output=csv";
+const leaderboardBody = document.querySelector('#leaderboard-table tbody');
+
+if (leaderboardBody) {
+  Papa.parse(leaderboardURL, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      const data = results.data;
+
+      // Sort descending by POINT
+      data.sort((a, b) => Number(b.POINT) - Number(a.POINT));
+
+      leaderboardBody.innerHTML = '';
+
+      data.forEach((row, index) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${row.NAMA || ''}</td>
+          <td>${row.MATCHES || 0}</td>
+          <td>${row.WIN || 0}</td>
+          <td>${row.DRAW || 0}</td>
+          <td>${row.LOSE || 0}</td>
+          <td>${row.POINT || 0}</td>
+        `;
+        leaderboardBody.appendChild(tr);
       });
     }
   });
