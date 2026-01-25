@@ -248,3 +248,59 @@ button:hover {
     font-size: 1.5rem;
   }
 }
+
+/* ===== LEADERBOARD TABLE ===== */
+#leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-size: 0.95rem;
+  margin-top: 20px;
+}
+
+#leaderboard-table th, #leaderboard-table td {
+  padding: 10px 12px;
+  border: 1px solid #003366;
+}
+
+#leaderboard-table th {
+  background-color: #001f3f; /* dark blue */
+  color: #66ccff; /* highlight biru */
+  font-weight: 700;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.6);
+}
+
+#leaderboard-table tr:nth-child(even) {
+  background-color: rgba(0, 31, 63, 0.6);
+}
+
+#leaderboard-table tr:nth-child(odd) {
+  background-color: rgba(0, 31, 63, 0.4);
+}
+
+#leaderboard-table tr:hover {
+  background-color: rgba(102, 204, 255, 0.2);
+}
+
+/* RANK 1 Highlight */
+#leaderboard-table tr:first-child {
+  background: linear-gradient(90deg, #ffd700, #ffdd33); /* emas */
+  color: #000;
+  font-weight: 900;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #leaderboard-table th, #leaderboard-table td {
+    padding: 6px 8px;
+    font-size: 0.8rem;
+  }
+
+  .home-title {
+    font-size: 1.8rem;
+  }
+
+  .home-subtitle {
+    font-size: 1rem;
+  }
+}
