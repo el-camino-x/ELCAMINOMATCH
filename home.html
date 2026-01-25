@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home - PENJAGA BUMI</title>
+  <title>Matches - PENJAGA BUMI</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,26 +11,52 @@
   <header class="header">
     <div class="logo">PENJAGA BUMI</div>
     <nav class="nav">
-      <a href="home.html" class="active">HOME</a>
-      <a href="matches.html">MATCHES</a>
+      <a href="home.html">HOME</a>
+      <a href="matches.html" class="active">MATCHES</a>
       <a href="index.html">LOGOUT</a>
     </nav>
   </header>
 
   <main class="main-content">
-    <video autoplay muted loop id="bg-video">
-      <source src="https://cdn.pixabay.com/video/2022/10/22/135988-764371107_large.mp4" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-    <div class="content-overlay">
-      <div class="welcome-container">
-        <h1 class="welcome-text">Welcome Anggota Penjaga Bumi</h1>
-        <p class="welcome-subtext">Terima kasih sudah menjadi agen rahasia</p>
+    <div class="matches-container">
+      <h2>Daftar Pertandingan</h2>
+
+      <!-- Filter Liga -->
+      <div class="filter-liga">
+        <label for="liga-select">Filter Liga: </label>
+        <select id="liga-select">
+          <option value="All">All</option>
+        </select>
       </div>
+
+      <!-- Tabel Matches -->
+      <table id="matches-table">
+        <thead>
+          <tr>
+            <th>LIGA</th>
+            <th>PLAYER</th>
+            <th>TEAM</th>
+            <th>HOME</th>
+            <th>POOR</th>
+            <th>AWAY</th>
+            <th>TEAM LOGO</th>
+            <th>PLAYER</th>
+            <th>REAL SCORE</th>
+            <th>TOTAL SCORE</th>
+            <th>WINNER</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row akan di-inject pakai JS -->
+        </tbody>
+      </table>
     </div>
   </main>
 
-  <!-- Reference JS -->
-  <script src="script.js"></script>
+  <!-- Papa Parse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+  <!-- Script JS -->
+  <script src="matches.js"></script>
+
 </body>
 </html>
