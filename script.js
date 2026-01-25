@@ -21,13 +21,16 @@ if (loginBtn && passwordInput && errorMsg) {
 }
 
 function highlightWinner(cell, winner) {
-  cell.style.backgroundColor = 'transparent'; 
+  cell.style.backgroundColor = 'transparent';
+  cell.classList.remove("playing-blink");
   if (winner === "WAITING") {
     cell.style.color = 'yellow';
   } else if (winner === "DRAW") {
-    cell.style.color = '#00bfff'; 
+    cell.style.color = '#00bfff';
+  } else if (winner === "PLAYING") {
+    cell.classList.add("playing-blink");
   } else if (winner) {
-    cell.style.color = '#28a745'; 
+    cell.style.color = '#28a745';
   } else {
     cell.style.color = '';
   }
