@@ -1,3 +1,33 @@
+// Password yang benar (ganti sesuai keinginan)
+const PASSWORD = "penjagabumi123";
+
+// Ambil elemen
+const loginBtn = document.getElementById("loginBtn");
+const passwordInput = document.getElementById("password");
+const errorMsg = document.getElementById("errorMsg");
+
+// Event klik tombol login
+loginBtn.addEventListener("click", () => {
+  const enteredPassword = passwordInput.value.trim();
+
+  if (enteredPassword === PASSWORD) {
+    // Password benar, redirect ke home.html
+    window.location.href = "home.html";
+  } else {
+    // Salah, tampil error
+    errorMsg.textContent = "Password salah! Coba lagi.";
+    passwordInput.value = "";
+    passwordInput.focus();
+  }
+});
+
+// Optional: tekan Enter di input password juga login
+passwordInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    loginBtn.click();
+  }
+});
+
 // Link CSV publik Google Sheet
 const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
 
