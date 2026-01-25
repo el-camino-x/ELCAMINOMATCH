@@ -21,67 +21,77 @@ if (loginBtn && passwordInput && errorMsg) {
   });
 }
 
-// ===== MATCHES DATA (KOSONG DULU) =====
+// ===== MATCHES DATA =====
+const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
 const tableBody = document.querySelector('#matches-table tbody');
 const ligaSelect = document.getElementById('liga-select');
 
+// Cek apakah elemen matches ada (jadi script bisa jalan di home juga tanpa error)
 if (tableBody && ligaSelect) {
-  // Kosong dulu, siap diisi nanti
-  tableBody.innerHTML = '';
-  ligaSelect.innerHTML = '<option value="All">All</option>';
-
-  // Event filter liga (meskipun kosong)
-  ligaSelect.addEventListener("change", () => {
-    const value = ligaSelect.value;
-    const tableRows = document.querySelectorAll("#matches-table tbody tr");
-    tableRows.forEach(row => {
-      row.style.display = (value === "All" || row.dataset.liga === value) ? "" : "none";
-    });
-  });
-}
-
-// ===== LEADERBOARD HOME =====
-const leaderboardURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkFDJVcyrG3EY9rv4jBvQc7JOAHAy9CsCMIFEB0oM1N3Afqi5ZuJCk5TD1hXKkFkMjq4VMEl3gHygg/pub?gid=1213844965&single=true&output=csv";
-const leaderboardBody = document.querySelector('#leaderboard-table tbody');
-
-if (leaderboardBody) {
-  Papa.parse(leaderboardURL, {
+  Papa.parse(csvURL, {
     download: true,
     header: true,
     skipEmptyLines: true,
     complete: function(results) {
       const data = results.data;
+      let ligaSet = new Set();
+      tableBody.innerHTML = '';
 
-      // Pastikan angka POINT, MATCHES, WIN, DRAW, LOSE jadi number
       data.forEach(row => {
-        row.MATCHES = Number(row.MATCHES) || 0;
-        row.WIN = Number(row.WIN) || 0;
-        row.DRAW = Number(row.DRAW) || 0;
-        row.LOSE = Number(row.LOSE) || 0;
-        row.POINT = Number(row.POINT) || 0;
-      });
+        const liga = row.LIGA || '';
+        const player1 = row.PLAYER || '';
+        const logo1 = row.TEAM || '';
+        const team1 = row.HOME || '';
+        const poor = row.POOR || '';
+        const team2 = row.AWAY || '';
+        const logo2 = row.LOGO_2 || '';
+        const player2 = row.PLAYER_2 || '';
+        const realScore = row.REAL_SCORE || '';
+        const totalScore = row.TOTAL_SCORE || '';
+        const winner = row.WINNER || '';
 
-      // Sort descending by POINT
-      data.sort((a,b) => b.POINT - a.POINT);
-
-      // Inject ke table
-      leaderboardBody.innerHTML = '';
-      data.forEach((row, index) => {
         const tr = document.createElement('tr');
+        tr.dataset.liga = liga;
         tr.innerHTML = `
-          <td>${index + 1}</td>
-          <td>${row.NAMA || ''}</td>
-          <td>${row.MATCHES}</td>
-          <td>${row.WIN}</td>
-          <td>${row.DRAW}</td>
-          <td>${row.LOSE}</td>
-          <td>${row.POINT}</td>
+          <td>${liga}</td>
+          <td>${player1}</td>
+          <td>${logo1 ? `<img src="${logo1}" alt="Logo" class="team-logo">` : ''} ${team1}</td>
+          <td>${team1}</td>
+          <td>${poor}</td>
+          <td>${team2}</td>
+          <td>${logo2 ? `<img src="${logo2}" alt="Logo" class="team-logo">` : ''}</td>
+          <td>${player2}</td>
+          <td>${realScore}</td>
+          <td>${totalScore}</td>
+          <td>${winner}</td>
         `;
-        leaderboardBody.appendChild(tr);
+        tableBody.appendChild(tr);
+        ligaSet.add(liga);
       });
-    },
-    error: function(err) {
-      console.error("Gagal load leaderboard CSV:", err);
+
+      // Filter Liga
+      ligaSelect.innerHTML = '<option value="All">All</option>';
+      Array.from(ligaSet).forEach(liga => {
+        const option = document.createElement('option');
+        option.value = liga;
+        option.textContent = liga;
+        ligaSelect.appendChild(option);
+      });
+
+      ligaSelect.addEventListener("change", () => {
+        const value = ligaSelect.value;
+        const tableRows = document.querySelectorAll("#matches-table tbody tr");
+        tableRows.forEach(row => {
+          row.style.display = (value === "All" || row.dataset.liga === value) ? "" : "none";
+        });
+      });
     }
   });
+}
+
+// ===== LEADERBOARD HOME (kosong dulu) =====
+const leaderboardBody = document.querySelector('#leaderboard-table tbody');
+if (leaderboardBody) {
+  // Kosongin table leaderboard, nanti bisa diisi manual atau CSV lain
+  leaderboardBody.innerHTML = '';
 }
