@@ -278,3 +278,16 @@ button:hover {
     font-size: 1rem;
   }
 }
+
+@keyframes soft-blink {
+  0% { color: #ff4d4d; }   /* merah lembut */
+  25% { color: #fff; }      /* putih */
+  50% { color: #ff4d4d; }   /* merah lembut */
+  75% { color: #fff; }      /* putih */
+  100% { color: #ff4d4d; }  /* merah lembut */
+}
+
+.playing-blink {
+  animation: soft-blink 1s infinite;
+  font-weight: 700;
+}
