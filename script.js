@@ -1,4 +1,3 @@
-// ===== LOGIN =====
 const PASSWORD = "siaptugas";
 const loginBtn = document.getElementById("loginBtn");
 const passwordInput = document.getElementById("password");
@@ -22,11 +21,11 @@ if (loginBtn && passwordInput && errorMsg) {
 }
 
 function highlightWinner(cell, winner) {
-  cell.style.backgroundColor = 'transparent';
+  cell.style.backgroundColor = 'transparent'; 
   if (winner === "WAITING") {
     cell.style.color = 'yellow';
   } else if (winner === "DRAW") {
-    cell.style.color = '#00bfff';
+    cell.style.color = '#00bfff'; 
   } else if (winner) {
     cell.style.color = '#28a745'; 
   } else {
@@ -34,9 +33,6 @@ function highlightWinner(cell, winner) {
   }
 }
 
-}
-
-// ===== MATCHES TABLE =====
 const matchesTableBody = document.querySelector("#matches-table tbody");
 const ligaSelect = document.getElementById("liga-select");
 const matchesCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
@@ -86,7 +82,6 @@ if (matchesTableBody && ligaSelect) {
         highlightWinner(winnerCell, winner);
       });
 
-      // ===== Dropdown Liga =====
       ligaSelect.innerHTML = '<option value="All">All</option>';
       Array.from(ligaSet).forEach(liga => {
         const option = document.createElement("option");
@@ -109,7 +104,6 @@ if (matchesTableBody && ligaSelect) {
   });
 }
 
-// ===== LEADERBOARD TABLE =====
 const leaderboardBody = document.querySelector("#leaderboard-table tbody");
 const leaderboardCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkFDJVcyrG3EY9rv4jBvQc7JOAHAy9CsCMIFEB0oM1N3Afqi5ZuJCk5TD1hXKkFkMjq4VMEl3gHygg/pub?gid=1213844965&single=true&output=csv";
 
