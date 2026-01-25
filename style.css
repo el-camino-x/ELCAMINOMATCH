@@ -280,11 +280,11 @@ button:hover {
 }
 
 @keyframes soft-blink {
-  0% { color: #ff4d4d; }   /* merah lembut */
-  25% { color: #fff; }      /* putih */
-  50% { color: #ff4d4d; }   /* merah lembut */
-  75% { color: #fff; }      /* putih */
-  100% { color: #ff4d4d; }  /* merah lembut */
+  0% { color: #ff4d4d; }  
+  25% { color: #fff; }   
+  50% { color: #ff4d4d; }  
+  75% { color: #fff; }   
+  100% { color: #ff4d4d; } 
 }
 
 .playing-blink {
