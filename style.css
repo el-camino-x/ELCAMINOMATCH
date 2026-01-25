@@ -1,5 +1,4 @@
 /* ================= Login Style ================= */
-/* Reset dasar */
 * {
   margin: 0;
   padding: 0;
@@ -7,16 +6,15 @@
   font-family: 'Arial Black', sans-serif;
 }
 
-/* wrapper supaya login selalu di tengah layar */
-.login-wrapper {
+body.login-body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* full height layar */
+  height: 100vh;
   background-color: #000; /* hitam pekat */
+  color: #b22222; /* merah elegan */
 }
 
-/* container login */
 .login-container {
   background-color: #111; /* hitam gelap */
   padding: 40px;
@@ -60,8 +58,22 @@ button {
   color: #b22222;
   font-weight: 900;
   font-size: 1rem;
-  curs
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
+button:hover {
+  background: linear-gradient(45deg, #b22222, #ff5555);
+  color: #fff;
+  box-shadow: 0 0 15px #b22222, 0 0 30px #ff5555;
+  transform: translateY(-2px);
+}
+
+.error {
+  margin-top: 10px;
+  color: #ff5555;
+  font-weight: 700;
+}
 
 /* ================= Global Reset / Body ================= */
 * {
