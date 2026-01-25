@@ -1,4 +1,3 @@
-// ===== LOGIN =====
 const PASSWORD = "siaptugas";
 const loginBtn = document.getElementById("loginBtn");
 const passwordInput = document.getElementById("password");
@@ -21,12 +20,10 @@ if (loginBtn && passwordInput && errorMsg) {
   });
 }
 
-// ===== MATCHES DATA =====
 const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
 const tableBody = document.querySelector('#matches-table tbody');
 const ligaSelect = document.getElementById('liga-select');
 
-// Cek apakah elemen matches ada (jadi script bisa jalan di home juga tanpa error)
 if (tableBody && ligaSelect) {
   Papa.parse(csvURL, {
     download: true,
@@ -69,7 +66,6 @@ if (tableBody && ligaSelect) {
         ligaSet.add(liga);
       });
 
-      // Filter Liga
       ligaSelect.innerHTML = '<option value="All">All</option>';
       Array.from(ligaSet).forEach(liga => {
         const option = document.createElement('option');
@@ -89,9 +85,35 @@ if (tableBody && ligaSelect) {
   });
 }
 
-// ===== LEADERBOARD HOME (kosong dulu) =====
 const leaderboardBody = document.querySelector('#leaderboard-table tbody');
 if (leaderboardBody) {
-  // Kosongin table leaderboard, nanti bisa diisi manual atau CSV lain
+  const leaderboardCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTkFDJVcyrG3EY9rv4jBvQc7JOAHAy9CsCMIFEB0oM1N3Afqi5ZuJCk5TD1hXKkFkMjq4VMEl3gHygg/pub?gid=1213844965&single=true&output=csv";
+
   leaderboardBody.innerHTML = '';
+
+  Papa.parse(leaderboardCSV, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+      const data = results.data;
+
+      data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.RANK || ''}</td>
+          <td>${row.NAMA || ''}</td>
+          <td>${row.MATCHES || ''}</td>
+          <td>${row.WIN || ''}</td>
+          <td>${row.DRAW || ''}</td>
+          <td>${row.LOSE || ''}</td>
+          <td>${row.POINT || ''}</td>
+        `;
+        leaderboardBody.appendChild(tr);
+      });
+    },
+    error: function(err) {
+      console.error("Gagal load leaderboard CSV:", err);
+    }
+  });
 }
