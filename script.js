@@ -24,7 +24,7 @@ function highlightWinner(cell, winner) {
   cell.style.color = "";
   cell.classList.remove("playing-blink");
 
-  if (winner === "WAITING") {
+  if (winner === "BOOKED") {
     cell.style.color = "yellow";
   } else if (winner === "DRAW") {
     cell.style.color = "#999";
