@@ -380,10 +380,10 @@ main,
   100% { left: 100%; }
 }
 
-#matches-table td:nth-child(6),
-#matches-table td:nth-child(10),
-#matches-table td:nth-child(11) {
-  white-space: nowrap;
-  text-align: center;
-  font-weight: 600;
+#matches-table tbody tr td:nth-of-type(6),
+#matches-table tbody tr td:nth-of-type(10),
+#matches-table tbody tr td:nth-of-type(11) {
+  white-space: nowrap !important;
+  text-align: center !important;
+  font-weight: 600 !important;
 }
