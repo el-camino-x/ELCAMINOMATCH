@@ -89,34 +89,27 @@ if (matchesTableBody && ligaSelect) {
 const winnerCell = tr.querySelector(".winner-cell");
 
 // reset style dulu
-tr.children[4].style.color = "";
-tr.children[6].style.color = "";
+winnerCell.style.color = "";
 winnerCell.classList.remove("playing-blink");
 
-// Tentukan status dan warna
-if (status === "DRAW") {
-  winnerCell.textContent = "DRAW";
-  tr.children[4].style.color = "#777";
-  tr.children[6].style.color = "#777";
-} else if (status === home) {
-  winnerCell.textContent = "WIN";
-  tr.children[4].style.color = "#28a745"; // HOME menang
-  tr.children[6].style.color = "#ff4d4d"; // AWAY kalah
-} else if (status === away) {
-  winnerCell.textContent = "WIN";
-  tr.children[6].style.color = "#28a745"; // AWAY menang
-  tr.children[4].style.color = "#ff4d4d"; // HOME kalah
-} else if (status === "PLAYING") {
-  winnerCell.textContent = "PLAYING";
-  winnerCell.classList.add("playing-blink");
-} else {
-  // Kalau explicit lose misal dari CSV
-  winnerCell.textContent = "LOSE";
-  tr.children[4].style.color = "#ff4d4d";
-  tr.children[6].style.color = "#ff4d4d";
-}
-
-      });
+// highlight berdasarkan status
+switch (status.toUpperCase()) {
+  case "WIN":
+    winnerCell.style.color = "#28a745"; // hijau
+    break;
+  case "LOSE":
+    winnerCell.style.color = "#ff4d4d"; // merah
+    break;
+  case "DRAW":
+    winnerCell.style.color = "#777"; // abu
+    break;
+  case "PLAYING":
+    winnerCell.classList.add("playing-blink"); // blink merah
+    break;
+  default:
+    winnerCell.style.color = "#fff"; // default putih kalau value lain
+    break;
+}      });
 
       // Update filter liga
       ligaSelect.innerHTML = `<option value="All">All</option>`;
