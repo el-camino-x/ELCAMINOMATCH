@@ -56,19 +56,20 @@ if (matchesTableBody && ligaSelect) {
       const ligaSet = new Set();
       matchesTableBody.innerHTML = "";
 
-      data.forEach(row => {
-        const liga = row.LIGA || "";
-        const date = row.DATE || "";
-        const player1 = row.PLAYER || "";
-        const logo1 = row.TEAM || "";
-        const home = row.HOME || "";
-        const poor = row.POOR || "";
-        const away = row.AWAY || "";
-        const logo2 = row.LOGO_2 || "";
-        const player2 = row.PLAYER_2 || "";
-        const realScore = row.REAL_SCORE || "";
-        const totalScore = row.TOTAL_SCORE || "";
-        const winner = row.WINNER || "";
+  data.forEach(row => {
+    const liga = row.LIGA || "";
+    const date = row.DATE || "";
+    const player1 = row.PLAYER || "";
+    const logo1 = row.TEAM || "";
+    const home = row.HOME || "";
+    const poor = row.POOR || "";
+    const away = row.AWAY || "";
+    const logo2 = row.LOGO_2 || "";
+    const player2 = row.PLAYER_2 || "";
+    const realScore = row.REAL_SCORE || "";
+    const totalScore = row.TOTAL_SCORE || "";
+    const status = row.STATUS || ""; // <- ini harus STATUS
+  });
 
         const tr = document.createElement("tr");
         tr.dataset.liga = liga;
