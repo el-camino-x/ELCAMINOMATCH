@@ -131,18 +131,31 @@ if (leaderboardBody) {
     complete: results => {
       leaderboardBody.innerHTML = "";
       results.data.forEach(row => {
+        // Ambil data sesuai kolom baru
+        const victim = row.VICTIM || row.NAMA || "";
+        const matches = Number(row.MATCHES) || 0;
+        const win = Number(row.WIN) || 0;
+        const draw = Number(row.DRAW) || 0;
+        const lose = Number(row.LOSE) || 0;
+
+        // Hitung WINRATE otomatis kalau kosong
+        let winrate = row.WINRATE;
+        if (!winrate) {
+          winrate = matches > 0 ? ((win / matches) * 100).toFixed(2) + "%" : "0,00%";
+        }
+
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${row.RANK}</td>
-          <td>${row.NAMA}</td>
-          <td>${row.MATCHES}</td>
-          <td>${row.WIN}</td>
-          <td>${row.DRAW}</td>
-          <td>${row.LOSE}</td>
-          <td>${row.POINT}</td>
+          <td>${victim}</td>
+          <td>${matches}</td>
+          <td>${win}</td>
+          <td>${draw}</td>
+          <td>${lose}</td>
+          <td>${winrate}</td>
         `;
         leaderboardBody.appendChild(tr);
       });
     }
   });
 }
+
