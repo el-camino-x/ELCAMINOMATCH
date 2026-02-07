@@ -54,8 +54,8 @@ if (matchesTableBody && ligaSelect) {
       data.forEach(row => {
         const liga = row.LIGA || "";
         const date = row.DATE || "";
-        const player1 = row.PLAYER || "";
-        const logo1 = row.TEAM || "";
+        const player = row.PLAYER || "";
+        const team = row.TEAM || "";
         const home = row.HOME || "";
         const poor = row.POOR || "";
         const away = row.AWAY || "";
@@ -63,7 +63,7 @@ if (matchesTableBody && ligaSelect) {
         const player2 = row.PLAYER_2 || "";
         const realScore = row.REAL_SCORE || "";
         const totalScore = row.TOTAL_SCORE || "";
-        const winner = row.WINNER || "";
+        const status = row.STATUS || ""; // sebelumnya WINNER
 
         const tr = document.createElement("tr");
         tr.dataset.liga = liga;
@@ -71,8 +71,8 @@ if (matchesTableBody && ligaSelect) {
         tr.innerHTML = `
           <td>${liga}</td>
           <td>${date}</td>
-          <td>${player1}</td>
-          <td>${logo1 ? `<img src="${logo1}" class="team-logo">` : ""}</td>
+          <td>${player}</td>
+          <td>${team ? `<img src="${team}" class="team-logo">` : ""}</td>
           <td>${home}</td>
           <td>${poor}</td>
           <td>${away}</td>
@@ -80,26 +80,27 @@ if (matchesTableBody && ligaSelect) {
           <td>${player2}</td>
           <td>${realScore}</td>
           <td>${totalScore}</td>
-          <td class="winner-cell">${winner}</td>
+          <td class="winner-cell">${status}</td>
         `;
 
         matchesTableBody.appendChild(tr);
         ligaSet.add(liga);
 
         const winnerCell = tr.querySelector(".winner-cell");
-        highlightWinner(winnerCell, winner);
+        highlightWinner(winnerCell, status);
 
-        // 🔹 warnain nama tim menang / seri
-        if (winner === "DRAW") {
+        // Warna HOME/AWAY kalau menang / draw
+        if (status === "DRAW") {
           tr.children[4].style.color = "#777";
           tr.children[6].style.color = "#777";
-        } else if (winner === home) {
+        } else if (status === home) {
           tr.children[4].style.color = "#28a745";
-        } else if (winner === away) {
+        } else if (status === away) {
           tr.children[6].style.color = "#28a745";
         }
       });
 
+      // Update filter liga
       ligaSelect.innerHTML = `<option value="All">All</option>`;
       Array.from(ligaSet).forEach(liga => {
         const opt = document.createElement("option");
