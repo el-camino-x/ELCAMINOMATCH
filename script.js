@@ -42,49 +42,50 @@ const matchesCSV =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vT7c6Nn46_FqX3jOIJW5JIfwOwn6d8IoJczjSDjcgiyEKVaVpQttgNO54_RDJQblo0SRfB8Ksafs4Ab/pub?gid=1735155149&single=true&output=csv";
 
 if (matchesTableBody && ligaSelect) {
-  Papa.parse(matchesCSV, {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: results => {
-      const data = results.data;
-      const ligaSet = new Set();
-      matchesTableBody.innerHTML = "";
+Papa.parse(matchesCSV, {
+  download: true,
+  header: true,
+  skipEmptyLines: true,
+  newline: "\n", // penting untuk text tetap utuh
+  complete: results => {
+    const data = results.data;
+    const ligaSet = new Set();
+    matchesTableBody.innerHTML = "";
 
-      data.forEach(row => {
-        const liga = row.LIGA || "";
-        const date = row.DATE || "";
-        const player = row.PLAYER || "";
-        const team = row.TEAM || "";
-        const home = row.HOME || "";
-        const poor = row.POOR || "";
-        const away = row.AWAY || "";
-        const logo2 = row.LOGO_2 || "";
-        const player2 = row.PLAYER_2 || "";
-        const realScore = row.REAL_SCORE || "";
-        const totalScore = row.TOTAL_SCORE || "";
-        const status = row.STATUS || ""; // sebelumnya WINNER
+    data.forEach(row => {
+      const liga = row.LIGA || ""; // text LIGA utuh
+      const date = row.DATE || "";
+      const player1 = row.PLAYER || "";
+      const logo1 = row.TEAM || "";
+      const home = row.HOME || "";
+      const poor = row.POOR || "";
+      const away = row.AWAY || "";
+      const logo2 = row.LOGO_2 || "";
+      const player2 = row.PLAYER_2 || "";
+      const realScore = row.REAL_SCORE || "";
+      const totalScore = row.TOTAL_SCORE || "";
+      const status = row.STATUS || "";
 
-        const tr = document.createElement("tr");
-        tr.dataset.liga = liga;
+      const tr = document.createElement("tr");
+      tr.dataset.liga = liga;
 
-        tr.innerHTML = `
-          <td>${liga}</td>
-          <td>${date}</td>
-          <td>${player}</td>
-          <td>${team ? `<img src="${team}" class="team-logo">` : ""}</td>
-          <td>${home}</td>
-          <td>${poor}</td>
-          <td>${away}</td>
-          <td>${logo2 ? `<img src="${logo2}" class="team-logo">` : ""}</td>
-          <td>${player2}</td>
-          <td>${realScore}</td>
-          <td>${totalScore}</td>
-          <td class="winner-cell">${status}</td>
-        `;
+      tr.innerHTML = `
+        <td>${liga}</td>
+        <td>${date}</td>
+        <td>${player1}</td>
+        <td>${logo1 ? `<img src="${logo1}" class="team-logo">` : ""}</td>
+        <td>${home}</td>
+        <td>${poor}</td>
+        <td>${away}</td>
+        <td>${logo2 ? `<img src="${logo2}" class="team-logo">` : ""}</td>
+        <td>${player2}</td>
+        <td>${realScore}</td>
+        <td>${totalScore}</td>
+        <td class="winner-cell">${status}</td>
+      `;
 
-        matchesTableBody.appendChild(tr);
-        ligaSet.add(liga);
+      matchesTableBody.appendChild(tr);
+      ligaSet.add(liga);
 
 const winnerCell = tr.querySelector(".winner-cell");
 
